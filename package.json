@@ -1,0 +1,35 @@
+{
+  "name": "scheduler-server",
+  "version": "1.0.0",
+  "description": "A scheduler to store and notify the user about the tasks scheduled.",
+  "main": "scripts/server.js",
+  "scripts": {
+    "test": "karma start ./karma.conf.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/prncher/scheduler-server"
+  },
+  "keywords": [
+    "Node.js",
+    "express",
+    "mongodb",
+    "socket.io",
+    "q"
+  ],
+  "author": "Prince Cheruvathur",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4",
+    "express-jwt": "^3.3.0",
+    "jsonwebtoken": "^5.7.0",
+    "mongodb": "^2.1.18",
+    "q": "^1.4.1",
+    "socket.io": "^1.4.6"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-ts": "^5.5.0-beta.2"
+  }
+}
