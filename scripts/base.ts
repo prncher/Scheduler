@@ -1,4 +1,11 @@
-﻿import express = require('express');
+/*
+ * base
+ * 
+
+ * Author : Prince Cheruvathur
+ * License: MIT
+ */
+import express = require('express');
 import da = require('./dal');
 
 export class baseController {

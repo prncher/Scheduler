@@ -1,3 +1,11 @@
+/*
+ * student
+ * 
+
+ * Author : Prince Cheruvathur
+ * License: MIT
+ */
+"use strict";
 import express = require('express');
 import da = require('./dal');
 import base = require('./base');

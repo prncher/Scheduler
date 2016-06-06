@@ -1,9 +1,16 @@
+/*
+ * dal
+ * 
+
+ * Author : Prince Cheruvathur
+ * License: MIT
+ */
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var Q = require("q");
 
 export class DataAccess {
-    static shareItUrl: string = 'mongodb://127.0.0.1:27017/Scheduler';
+    static shareItUrl: string = 'mongodb://admin:G6u2Z9yY8hDe@127.0.0.1:27017/Scheduler';
     dbConnection: any = null;
 
     public openDbConnection() {
@@ -27,9 +34,20 @@ export class DataAccess {
         return this.getDocumentCount('Students');
     }
 
+    public getSchedulesCount(): any {
+        return this.getDocumentCount('Schedules');
+    }
+
     public insertStudent(student: any): any {
         return this.insertDocument(student, 'Students');
     }
+
+    public insertSchedule(schedule: any): any {
+        return this.insertDocument(schedule, 'Schedules');
+    }
+    public editSchedule(schedule: any): any {
+        return this.editDocument(schedule, 'Schedules');
+    };
 
     public getStudent(user : any): any {
         var deferred = Q.defer();
@@ -45,13 +63,47 @@ export class DataAccess {
                     return deferred.resolve(document);
                 }
                 else if (document === null) {
-                    deferred.reject(new Error("No Students Exist"));
+                    return deferred.resolve(document);
                 }
             });
         }
 
         return deferred.promise;
     }
+
+    public getSchedules(studentId: number): any {
+        var deferred = Q.defer();
+        if (this.dbConnection) {
+            var cursor = this.dbConnection.collection('Schedules').find();
+            var resources: Array<any> = new Array<any>();
+            cursor.each((err, document) => {
+                assert.equal(err, null);
+                if (err) {
+                    deferred.reject(new Error(JSON.stringify(err)));
+                }
+                else if (document !== null && document['studentId'] === studentId) {
+                    resources.push(document);
+                }
+                else if (document === null) {
+                    deferred.resolve(resources);
+                }
+            });
+        }
+
+        return deferred.promise;
+    }
+
+    private editDocument(document : any, collectionName: string): any{
+        var deferred = Q.defer();
+        this.dbConnection.collection(collectionName).updateOne({"id": document.id}, { $set : document}, (err, result) => {
+            assert.equal(err, null);
+            if (err) {
+                deferred.reject(new Error(JSON.stringify(err)));
+            }
+            deferred.resolve(result);
+        });
+        return deferred.promise;
+    };
 
     private insertDocument(document: any, collectionName: string): any {
         var deferred = Q.defer();

@@ -1,4 +1,11 @@
-﻿"uses strict"
+/*
+ * jwtManage
+ * 
+
+ * Author : Prince Cheruvathur
+ * License: MIT
+ */
+"use strict"
 var fs = require('fs');
 var jwt = require('jsonwebtoken');
 var Q = require("q");
@@ -25,7 +32,9 @@ export class JwtManager {
                     deferred.reject(new Error('Failed to authenticate token.'));
                 } else {
                     deferred.resolve(decoded);
-                }            });        } else {
+                }
+            });
+        } else {
             deferred.reject(new Error('Authenticate token not present'));
         }
 

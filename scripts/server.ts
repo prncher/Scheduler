@@ -1,4 +1,11 @@
-"use script"
+/*
+ * server
+ * 
+
+ * Author : Prince Cheruvathur
+ * License: MIT
+ */
+"use strict";
 
 var http = require('http');
 import express = require('express');
@@ -7,6 +14,7 @@ var bodyParser = require('body-parser');
 var expressJWT = require('express-jwt');
 
 import st = require('./student');
+import sc = require('./scheduler');
 import da = require('./dal');
 import jwt = require('./jwtManage');
 
@@ -38,10 +46,14 @@ app.get('/', (req, res) => {
 
 var dataAccess = new da.DataAccess()
 var studentController = new st.StudentController(app, dataAccess);
+var schedulerController = new sc.SchedulerController(app, dataAccess);
 
 io.on('connection', (socket) => {
     console.log('a user connected');
     dataAccess.openDbConnection();
+
+    schedulerController.setSocket(socket);
+
 
     socket.on('disconnect', function () {
         dataAccess.closeDbConnection();
